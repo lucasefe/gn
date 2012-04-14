@@ -8,7 +8,7 @@ class Gn
       @options = Hash.new
       @path = STDOUT
 
-      option("-O", -> path { @path = File.new(path, "w") }
+      option "-O", -> path { @path = File.new(path, "w") }
 
       configure
       parse(argv)

@@ -12,14 +12,31 @@ class Gn
     run
   end
 
-  def init_file
-    #"#{ENV['HOME']}/.plans/#{name}/init.rb"
-    "./plans/#{name}/init.rb"
+  def run
+    load_plan
+    Plan.constants.each do |constant|
+      blueprint = Plan.const_get(constant).new
+      template = File.join(templates_location, constant.to_s.downcase)
+      FileUtils.mkdir_p(File.dirname(blueprint.destination))
+      File.open(blueprint.destination, "w") do |f|
+        f.write Mote.parse(File.read(template), blueprint).call
+      end
+    end
+  end
+
+  def location
+    @location ||= [name, "#{ENV['HOME']}.plans/#{name}", "./plans/#{name}"].select do |path|
+      Dir.exists?(path)
+    end
+  end
+
+  def templates_location
+    File.join(@location, "templates")
   end
 
   def load_plan
     file = Tempfile.new('plan_init')
-    file.write(File.read(init_file))
+    file.write(File.read(File.join(location, "init.rb")))
     file.close
     open_with_editor(file)
     load file.path
@@ -29,21 +46,7 @@ class Gn
     editor = ENV['EDITOR'] || "vi"
     system("#{editor} #{file.path}")
   end
-
-  def run
-    load_plan
-
-    Plan.constants.each do |constant|
-      blueprint = Plan.const_get(constant).new
-
-      template = "./plans/#{name}/templates/#{constant.to_s.downcase}"
-      FileUtils.mkdir_p(File.dirname(blueprint.destination))
-      File.open(blueprint.destination, "w") do 
-        Mote.parse(File.read(template), blueprint).call
-      end
-    end
-  end
-
+  
 end
 
 Gn.new(ARGV.first)

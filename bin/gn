@@ -46,7 +46,23 @@ class Gn
     editor = ENV['EDITOR'] || "vi"
     system("#{editor} #{file.path}")
   end
-  
+
 end
 
-Gn.new(ARGV.first)
+name = ARGV.first.to_s.strip
+
+if name.empty? || name == "-h" || name == "--help"
+  puts <<-USAGE
+  Usage: gn <name>
+
+  Run the first <name> generator that is found in the following locations:
+
+  * <name>/init.rb
+  * plans/<name>/init.rb
+  *  ~/.plans/<name>/init.rb
+
+  See http://lucasefe.github.com/gn for more information.
+  USAGE
+else
+  Gn.new(name)
+end

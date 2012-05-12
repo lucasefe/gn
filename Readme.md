@@ -33,6 +33,7 @@ end
 
 * Inside the readme template, put your typical Readme content. 
 * To include dynamic data, just use {{variable}}, where variable is a public method on Plan::Readme. So writing {{name}} will produce CHANGEME.
+* For more information on the templates syntax, check [`mote`](http://soveran.github.com/mote), the minimalist template engine.
 
 * Run the generator like this: 
 

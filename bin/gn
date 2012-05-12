@@ -28,7 +28,8 @@ class Gn
   end
 
   def generate_from(constant_name, blueprint)
-    template = File.join(templates_location, "#{constant_name.to_s.downcase}.mote")
+    template = File.join(templates_location, 
+      "#{constant_name.to_s.downcase}.mote")
     FileUtils.mkdir_p(File.dirname(blueprint.destination))
     File.open(blueprint.destination, "w") do |f|
       f.write Mote.parse(File.read(template), blueprint).call
@@ -36,9 +37,13 @@ class Gn
   end
 
   def location
-    @location ||= [name, "./plans/#{name}", "#{ENV['HOME']}/.plans/#{name}"].detect do |path|
+    @location ||= available_locations.detect do |path|
       Dir.exists?(path)
     end
+  end
+
+  def available_locations
+    [name, "./plans/#{name}", "#{ENV['HOME']}/.plans/#{name}"]
   end
 
   def templates_location

@@ -2,7 +2,9 @@
 
 ## Description
 
-gn is is the simplest file generator you could ever find. 
+gn is is the simplest file/folder/structure/whatever generator you could ever find. 
+
+## Usage
 
 Say you want to generate always a typical README file, like this one, you should do the following:
 
@@ -37,3 +39,10 @@ Say you want to generate always a typical README file, like this one, you should
 * Your existing editor will pop open, allowing you to change the content of the module. 
 * Close the editor. 
 * You'll end up having a file named readme in the current directory, with the changes you made on the init.rb file, but your original init.rb file will be intact. 
+
+
+## Other usages
+
+You can use gn to generate different things. In our case, we design it so we could generate basic crud/scaffolds for cuba, but you could use for whatever you want. 
+
+See the folder named examples for some ideas. 

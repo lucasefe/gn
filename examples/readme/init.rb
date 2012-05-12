@@ -1,5 +1,5 @@
 module Plan
-  module Readme
+  class Readme
     def name
       "My Super Project"
     end

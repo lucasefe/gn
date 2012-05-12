@@ -1,3 +1,4 @@
+# encoding: utf-8
 Gem::Specification.new do |s|
   s.name              = "gn"
   s.version           = "0.0.1.alpha"

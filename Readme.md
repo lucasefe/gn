@@ -40,9 +40,12 @@ Say you want to generate always a typical README file, like this one, you should
 * Close the editor. 
 * You'll end up having a file named readme in the current directory, with the changes you made on the init.rb file, but your original init.rb file will be intact. 
 
-
 ## Other usages
 
 You can use gn to generate different things. In our case, we design it so we could generate basic crud/scaffolds for cuba, but you could use for whatever you want. 
 
 See the folder named examples for some ideas. 
+
+## Installation
+
+    gem install gn

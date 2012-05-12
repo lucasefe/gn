@@ -9,18 +9,25 @@ class Gn
 
   def initialize(name)
     @name = name
-    run
+    process
   end
 
-  def run
+  def process
     load_plan
-    Plan.constants.each do |constant|
-      blueprint = Plan.const_get(constant).new
-      template = File.join(templates_location, "#{constant.to_s.downcase}.mote")
-      FileUtils.mkdir_p(File.dirname(blueprint.destination))
-      File.open(blueprint.destination, "w") do |f|
-        f.write Mote.parse(File.read(template), blueprint).call
+    Plan.constants.each do |constant_name|
+      constant = Plan.const_get(constant_name)
+      if constant.class == Class
+        puts "-> Generating #{constant_name}"
+        generate_from constant_name, constant.new 
       end
+    end
+  end
+
+  def generate_from(constant_name, blueprint)
+    template = File.join(templates_location, "#{constant_name.to_s.downcase}.mote")
+    FileUtils.mkdir_p(File.dirname(blueprint.destination))
+    File.open(blueprint.destination, "w") do |f|
+      f.write Mote.parse(File.read(template), blueprint).call
     end
   end
 
@@ -35,7 +42,7 @@ class Gn
   end
 
   def load_plan
-    file = Tempfile.new('plan_init')
+    file = Tempfile.new('plan_init.rb')
     file.write(File.read(File.join(location, "init.rb")))
     file.close
     open_with_editor(file)

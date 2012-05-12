@@ -16,7 +16,7 @@ class Gn
     load_plan
     Plan.constants.each do |constant|
       blueprint = Plan.const_get(constant).new
-      template = File.join(templates_location, constant.to_s.downcase)
+      template = File.join(templates_location, "#{constant.to_s.downcase}.mote")
       FileUtils.mkdir_p(File.dirname(blueprint.destination))
       File.open(blueprint.destination, "w") do |f|
         f.write Mote.parse(File.read(template), blueprint).call

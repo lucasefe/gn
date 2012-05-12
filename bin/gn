@@ -25,7 +25,7 @@ class Gn
   end
 
   def location
-    @location ||= [name, "./plans/#{name}", "#{ENV['HOME']}.plans/#{name}"].detect do |path|
+    @location ||= [name, "./plans/#{name}", "#{ENV['HOME']}/.plans/#{name}"].detect do |path|
       Dir.exists?(path)
     end
   end

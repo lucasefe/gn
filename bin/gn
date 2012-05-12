@@ -9,7 +9,11 @@ class Gn
 
   def initialize(name)
     @name = name
-    process
+    if location
+      process
+    else
+      puts "Plan named '#{name}' doesn't exist" 
+    end
   end
 
   def process

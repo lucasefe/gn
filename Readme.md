@@ -2,7 +2,7 @@
 
 ## Description
 
-gn is is the simplest file/folder/structure/whatever generator you could ever find. 
+gn is the simplest file/folder/structure/whatever generator you could ever find. 
 
 ## Usage
 

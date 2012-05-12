@@ -27,7 +27,7 @@ Say you want to generate always a typical README file, like this one, you should
 * Create a templates folder and the template itself.
 
         mkdir readme/templates
-        touch readme/templates/readme
+        touch readme/templates/readme.mote
 
 * Inside the readme template, put your typical Readme content. 
 * To include dynamic data, just use {{variable}}, where variable is a public method on Plan::Readme. So writing {{name}} will produce CHANGEME.

@@ -1,0 +1,49 @@
+#!/usr/bin/env ruby
+require 'mote'
+require 'fileutils'
+require 'tempfile'
+
+class Gn
+
+  attr_reader :name
+
+  def initialize(name)
+    @name = name
+    run
+  end
+
+  def init_file
+    #"#{ENV['HOME']}/.plans/#{name}/init.rb"
+    "./plans/#{name}/init.rb"
+  end
+
+  def load_plan
+    file = Tempfile.new('plan_init')
+    file.write(File.read(init_file))
+    file.close
+    open_with_editor(file)
+    load file.path
+  end
+
+  def open_with_editor(file)
+    editor = ENV['EDITOR'] || "vi"
+    system("#{editor} #{file.path}")
+  end
+
+  def run
+    load_plan
+
+    Plan.constants.each do |constant|
+      blueprint = Plan.const_get(constant).new
+
+      template = "./plans/#{name}/templates/#{constant.to_s.downcase}"
+      FileUtils.mkdir_p(File.dirname(blueprint.destination))
+      File.open(blueprint.destination, "w") do 
+        Mote.parse(File.read(template), blueprint).call
+      end
+    end
+  end
+
+end
+
+Gn.new(ARGV.first)

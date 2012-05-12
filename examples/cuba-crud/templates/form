@@ -1,0 +1,5 @@
+form method='post' action='{{model.name.downcase}}'
+  % model.attributes.each do |name, type|
+  label for="{{model.name.downcase}}[{{name}}]"
+  input type='text' name="{{model.name.downcase}}[{{name}}]"
+  % end

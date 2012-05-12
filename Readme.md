@@ -11,18 +11,20 @@ Say you want to generate always a typical README file, like this one, you should
 * Create a folder named (for instance) readme on your current folder
 * Inside of that folder, create a file named init.rb and fill it like this:
 
-        module Plan
-          module Readme
-            
-            def name 
-              "CHANGEME"
-            end
+```ruby
+module Plan
+  module Readme
 
-            def destination
-              "readme"
-            end
-          end
-        end
+    def name
+      "CHANGEME"
+    end
+
+    def destination
+      "readme"
+    end
+  end
+end
+```
 
 * Create a templates folder and the template itself.
 

@@ -24,15 +24,15 @@ Say you want to generate always a typical README file, like this one, you should
 
 * Create a templates folder and the template itself.
 
-````mkdir readme/templates
-````touch readme/templates/readme
+        mkdir readme/templates
+        touch readme/templates/readme
 
 * Inside the readme template, put your typical Readme content. 
 * To include dynamic data, just use {{variable}}, where variable is a public method on Plan::Readme. So writing {{name}} will produce CHANGEME.
 
 * Run the generator like this: 
 
-    gn readme
+        gn readme
 
 * Your existing editor will pop open, allowing you to change the content of the module. 
 * Close the editor. 

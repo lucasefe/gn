@@ -1,4 +1,4 @@
 models
 routes
 views
-
+*.gem

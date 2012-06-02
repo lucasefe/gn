@@ -51,7 +51,7 @@ class Gn
   end
 
   def load_plan
-    file = Tempfile.new('plan_init.rb')
+    file = Tempfile.new(['plan', '.rb'])
     file.write(File.read(File.join(location, "init.rb")))
     file.close
     open_with_editor(file)

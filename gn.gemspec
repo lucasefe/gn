@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.authors           = ["Leandro López", "Michel Martens", "Lucas Florio"]
   s.email             = ["lucasefe@gmail.com"]
   s.homepage          = "http://lucasefe.github.com/gn"
-  s.files             = ["bin/gn", "LICENSE", "Readme.md"]
+  s.files             = ["lib/gn.rb", "bin/gn", "LICENSE", "Readme.md"]
   s.license           = "MIT"
 
   s.add_dependency "mote"

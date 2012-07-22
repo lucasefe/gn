@@ -1,0 +1,15 @@
+# encoding: utf-8
+
+Gem::Specification.new do |s|
+  s.name              = "{{name}}"
+  s.version           = "{{version}}"
+  s.summary           = "{{description}}"
+  s.description       = "{{description}}"
+  s.authors           = {{authors.inspect}}
+  s.email             = {{email.inspect}}
+  s.homepage          = "{{homepage}}"
+  s.files             = []
+  s.license           = "{{license}}"
+  # s.executables.push(<executable>)
+  # s.add_dependency <dependency>, <version>
+end

@@ -1,84 +1,36 @@
 #!/usr/bin/env ruby
-require 'mote'
-require 'fileutils'
-require 'tempfile'
 
-class Gn
-
-  attr_reader :name
-
-  def initialize(name)
-    @name = name
-    if location
-      process
-    else
-      puts "Plan named '#{name}' doesn't exist" 
-    end
-  end
-
-  def process
-    load_plan
-    Plan.constants.each do |constant_name|
-      constant = Plan.const_get(constant_name)
-      if constant.class == Class
-        puts "-> Generating #{constant_name}"
-        generate_from constant_name, constant.new 
-      end
-    end
-  end
-
-  def generate_from(constant_name, blueprint)
-    template = File.join(templates_location, 
-      "#{constant_name.to_s.downcase}.mote")
-    FileUtils.mkdir_p(File.dirname(blueprint.destination))
-    File.open(blueprint.destination, "w") do |f|
-      f.write Mote.parse(File.read(template), blueprint).call
-    end
-  end
-
-  def location
-    @location ||= available_locations.detect do |path|
-      Dir.exists?(path)
-    end
-  end
-
-  def available_locations
-    [name, "./plans/#{name}", "#{ENV['HOME']}/.plans/#{name}"]
-  end
-
-  def templates_location
-    File.join(@location, "templates")
-  end
-
-  def load_plan
-    file = Tempfile.new(['plan', '.rb'])
-    file.write(File.read(File.join(location, "init.rb")))
-    file.close
-    open_with_editor(file)
-    load file.path
-  end
-
-  def open_with_editor(file)
-    editor = ENV['EDITOR'] || "vi"
-    system("#{editor} #{file.path}")
-  end
-
-end
+require_relative "../lib/gn"
 
 name = ARGV.first.to_s.strip
 
 if name.empty? || name == "-h" || name == "--help"
+
   puts <<-USAGE
   Usage: gn <name>
 
-  Run the first <name> generator that is found in the following locations:
-
-  * <name>/init.rb
-  * plans/<name>/init.rb
-  *  ~/.plans/<name>/init.rb
+  Run the <name> generator found in ~/.gn/<name>.
 
   See http://lucasefe.github.com/gn for more information.
   USAGE
+
 else
-  Gn.new(name)
+  require "fileutils"
+
+  gn = Gn.new(name)
+
+  # Load edited plan.
+  gn.load!
+
+  # Process each blueprint.
+  gn.blueprints.each do |blueprint|
+
+    # Create destination directory.
+    FileUtils.mkdir_p(File.dirname(blueprint.destination))
+
+    # Write generated template.
+    File.open(blueprint.destination, "w") do |file|
+      file.write blueprint.render
+    end
+  end
 end

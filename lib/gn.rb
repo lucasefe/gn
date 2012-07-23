@@ -39,7 +39,7 @@ class Gn
   end
 
   def load!
-    file = Tempfile.new(PLAN_FILE)
+    file = Tempfile.new([PLAN_FILE, ".rb"])
     file.write(File.read(path(PLAN_FILE)))
     file.close
 

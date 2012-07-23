@@ -53,5 +53,8 @@ rest.each do |name|
     File.open(blueprint.destination, "w") do |file|
       file.write blueprint.render
     end
+
+    # Report the file destination.
+    puts "Created #{blueprint.destination}"
   end
 end

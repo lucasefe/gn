@@ -7,7 +7,7 @@ require "fileutils"
 
 module CLI
   README  = File.expand_path("../README", File.dirname(__FILE__))
-  GN_HOME = File.join(ENV["HOME"], ".gn")
+  GN_HOME = File.join(Dir.home, ".gn")
 
   # Display the README message and exit.
   def self.help

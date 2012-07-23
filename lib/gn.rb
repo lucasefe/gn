@@ -35,7 +35,7 @@ class Gn
   end
 
   def path(file)
-    "#{ENV["HOME"]}/.gn/#{name}/#{file}"
+    File.join(Dir.home, ".gn", name, file)
   end
 
   def load!

@@ -2,21 +2,42 @@
 
 require_relative "../lib/gn"
 
-name = ARGV.first.to_s.strip
+require "clap"
+require "fileutils"
 
-if name.empty? || name == "-h" || name == "--help"
+module CLI
+  README  = File.expand_path("../README", File.dirname(__FILE__))
+  GN_HOME = File.join(ENV["HOME"], ".gn")
 
-  puts <<-USAGE
-  Usage: gn <name>
+  # Display the README message and exit.
+  def self.help
+    exec "${PAGER:-less} #{README}"
+  end
 
-  Run the <name> generator found in ~/.gn/<name>.
+  def self.install(template)
 
-  See http://lucasefe.github.com/gn for more information.
-  USAGE
+    # Create directory for templates if it doesn't exist.
+    FileUtils.mkdir_p(GN_HOME)
 
-else
-  require "fileutils"
+    # Clone the template repository.
+    Dir.chdir(GN_HOME) do
+      exec "git clone %s" % template
+    end
+  end
+end
 
+# Display the README if there are no arguments.
+CLI.help if ARGV.empty?
+
+rest = Clap.run ARGV,
+  "-h"      => CLI.method(:help),
+  "--help"  => CLI.method(:help)
+
+rest = Clap.run rest,
+  "-i"        => CLI.method(:install),
+  "--install" => CLI.method(:install)
+
+rest.each do |name|
   gn = Gn.new(name)
 
   # Load edited plan.

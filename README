@@ -1,0 +1,143 @@
+GN(1)
+
+NAME
+      gn -- The simplest template generator.
+
+SYNOPSIS
+      gn <plan>
+      gn -i <plan-url>
+      gn -h
+
+DESCRIPTION
+      <plan>
+          Opens the blueprints with the default editor, and once saved
+          it expands the templates.
+
+      -i <plan-url>
+          Installs the given plan from a git repository. It clones the
+          repository to ~/.gn/<plan>.
+
+      -h
+          Display this help message.
+
+EXAMPLE PLAN
+      A plan is a directory in ~/.gn/<plan>, with the following
+      structure:
+
+          ~/.gn/<plan>/plan.rb
+          ~/.gn/<plan>/plan/<template>.mote
+
+      For example, consider a plan for generating a gemspec file.
+
+          ~/.gn/gemspec/plan.rb
+          ~/.gn/gemspec/plan/gemspec.mote
+
+      The plan definition `plan.rb` has this format:
+
+          module Plan
+            class GemSpec
+              def name
+                "foo"
+              end
+
+              def version
+                "0.0.1"
+              end
+
+              def description
+                "Description of my gem"
+              end
+
+              def authors
+                ["My Name"]
+              end
+
+              def email
+                ["my_name@example.com"]
+              end
+
+              def homepage
+                "http://example.com/"
+              end
+
+              def license
+                "MIT"
+              end
+
+              def destination
+                "#{name}.gemspec"
+              end
+            end
+          end
+
+      The only mandatory method is `destination`. Everything else is
+      optional and is based on how the template is designed.
+
+      Templates are rendered using mote (http://soveran.github.com/mote),
+      the minimalist template engine. Variable interpolation is
+      done by using the {{variable}} syntax, as shown in the example
+      below. Variable names are extracted from the plan context, in this
+      case an instance of `Plan::GemSpec`.
+
+          # encoding: utf-8
+
+          Gem::Specification.new do |s|
+            s.name              = "{{name}}"
+            s.version           = "{{version}}"
+            s.summary           = "{{description}}"
+            s.description       = "{{description}}"
+            s.authors           = {{authors.inspect}}
+            s.email             = {{email.inspect}}
+            s.homepage          = "{{homepage}}"
+            s.files             = []
+            s.license           = "{{license}}"
+            # s.executables.push(<executable>)
+            # s.add_dependency <dependency>, <version>
+          end
+
+      Refer to de advanced example for information about how to
+      generate different files and directory structures.
+
+ADVANCED EXAMPLE
+      It is possible to use gn to generate several files and even
+      complex directory structures. Consider this plan definition:
+
+          $ find .gn/foo
+          .gn/foo//plan.rb
+          .gn/foo//plan/foo.mote
+          .gn/foo//plan/bar/baz.mote
+
+          $ cat plan.rb
+          module Plan
+            class Foo
+              def destination
+                "foo.rb"
+              end
+            end
+
+            module Bar
+              class Bar
+                def destination
+                  "bar/baz.rb"
+                end
+              end
+            end
+          end
+
+EDITING A PLAN
+      When using a template, gn gives you the ability to edit the plan
+      before running it. Only the templates that correspond to classes
+      defined in the Plan module get expanded and written. It means
+      that if you want to create only the file `foo.rb` in the example
+      above, all you have to do is delete the Bar module from the plan
+      definition.
+
+INSTALLATION
+      $ gem install gn
+
+HISTORY
+      In software development, there's usually the need to generate
+      code or directory structures, and many tools have this feature
+      built in. The idea with gn is to provide a small and simple tool
+      that generalizes the task of template expansion in a way that's
+      easy to understand, yet powerful and flexible.

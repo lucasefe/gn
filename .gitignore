@@ -2,3 +2,4 @@ models
 routes
 views
 *.gem
+.gn

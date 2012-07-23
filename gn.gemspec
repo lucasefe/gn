@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.summary           = "Simple Generator for the masses"
   s.description       = "Simple Generator for the masses"
   s.authors           = ["Leandro López", "Michel Martens", "Lucas Florio"]
-  s.email             = ["lucasefe@gmail.com"]
+  s.email             = ["michel@soveran.com", "lucasefe@gmail.com"]
   s.homepage          = "http://lucasefe.github.com/gn"
   s.files             = ["lib/gn.rb", "lib/gn/dsl.rb", "bin/gn", "LICENSE", "README"]
   s.license           = "MIT"

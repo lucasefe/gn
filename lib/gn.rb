@@ -45,7 +45,11 @@ class Gn
 
     edit(file)
 
-    load file.path
+    if $?.success?
+      load file.path
+    else
+      exit 1
+    end
   end
 
   def editor

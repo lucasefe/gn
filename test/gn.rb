@@ -18,6 +18,7 @@ Dir.chdir("test") do
 
     # Stub edit command.
     def gn.edit(file)
+      system "true"
     end
 
     gn

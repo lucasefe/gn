@@ -124,6 +124,31 @@ ADVANCED EXAMPLE
             end
           end
 
+DSL USAGE
+      Define your plan like this:
+
+          require 'gn/dsl'
+
+          module Plan
+            extend Gn::DSL
+
+            template "App", "app.rb"
+          end
+
+      Or you can provide additional methods in a block:
+
+          require 'gn/dsl'
+
+          module Plan
+            extend Gn::DSL
+
+            template "App", "app.rb" do
+              def name
+                "My App Name"
+              end
+            end
+          end
+
 EDITING A PLAN
       When using a template, gn gives you the ability to edit the plan
       before running it. Only the templates that correspond to classes

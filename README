@@ -95,7 +95,7 @@ EXAMPLE PLAN
             # s.add_dependency <dependency>, <version>
           end
 
-      Refer to de advanced example for information about how to
+      Refer to the advanced example for information about how to
       generate different files and directory structures.
 
 ADVANCED EXAMPLE

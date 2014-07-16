@@ -61,8 +61,20 @@ class Gn
   end
 
   def blueprints
-    Plan.constants.map do |constant|
-      Blueprint.new(self, Plan.const_get(constant))
+    ns_classes(Plan).map do |constant|
+      Blueprint.new(self, constant)
     end
+  end
+
+  def ns_classes(const)
+    @ns_classes ||= []
+    const.constants.each do |constant|
+      if const.const_get(constant).respond_to? :new
+        @ns_classes << const.const_get(constant)
+      else
+        ns_classes(const.const_get(constant))
+      end
+    end
+    @ns_classes
   end
 end

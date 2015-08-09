@@ -6,6 +6,7 @@ NAME
 SYNOPSIS
       gn <plan>
       gn -i <plan-url>
+      gn -l
       gn -h
 
 DESCRIPTION
@@ -16,6 +17,9 @@ DESCRIPTION
       -i <plan-url>
           Installs the given plan from a git repository. It clones the
           repository to ~/.gn/<plan>.
+
+      -l
+          Lists the installed templates.
 
       -h
           Display this help message.

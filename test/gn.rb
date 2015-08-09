@@ -1,4 +1,4 @@
-require_relative "../lib/gn"
+load "bin/gn"
 
 Dir.chdir("test") do
   test do
